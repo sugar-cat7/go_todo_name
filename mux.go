@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi"
 	"github.com/go-playground/validator/v10"
 	"github.com/sugar-cat7/go_todo_name/handler"
 	"github.com/sugar-cat7/go_todo_name/store"

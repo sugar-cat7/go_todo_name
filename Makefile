@@ -3,8 +3,8 @@
 
 DOCKER_TAG := latest
 build: ## Build docker image to deploy
-	docker build -t sugar-cat7/gotodo:${DOCKER_TAG} \
-	--target deploy ./
+	docker build -t budougumi0617/gotodo:${DOCKER_TAG} \
+		--target deploy ./
 
 build-local: ## Build docker image to local development
 	docker compose build --no-cache
@@ -24,6 +24,12 @@ ps: ## Check container status
 test: ## Execute tests
 	go test -race -shuffle=on ./...
 
+dry-migrate: ## Try migration
+	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo --dry-run < ./_tools/mysql/schema.sql
+
+migrate:  ## Execute migration
+	mysqldef -u todo -p todo -h 127.0.0.1 -P 33306 todo < ./_tools/mysql/schema.sql
+
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
